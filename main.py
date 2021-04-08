@@ -54,7 +54,10 @@ def create_redacted_file():
         content = sanitize_message(msg)
         if (requires_redaction(content)):
             chunks = msg.split(" - ")
-            chunks[len(chunks) - 1] = "<message redacted>"
+            if (len(chunks) == 1):
+                chunks = ["<TIMESTAMP_NOT_FOUND>", "<MESSAGE_REDACTED>"]
+            else:
+                chunks[1] = "<MESSAGE_REDACTED>"
             content = ' - '.join([str(x) for x in chunks])
         r_file.write(content + "\n")
 
